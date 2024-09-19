@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://cuc6iv58gggh"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_003qw"]
+[ext_resource type="PackedScene" uid="uid://1aggvargr0pr" path="res://Player.tscn" id="1_pgih2"]
+[ext_resource type="PackedScene" uid="uid://drattlk7608tf" path="res://food.tscn" id="2_1dd60"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l2t3c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tuunk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blfay"]
+albedo_color = Color(0.298039, 0.298039, 0.298039, 1)
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(1.795, 2, 1.68)
+texture_filter = 0
+
+[sub_resource type="Environment" id="Environment_ibs0q"]
+
+[sub_resource type="Curve3D" id="Curve3D_gm02a"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -61.7668, 0, -60.2055, 0, 0, 0, 0, 0, 0, 61.2411, 0, -60.047, 0, 0, 0, 0, 0, 0, 61.6508, 0, 62.1681, 0, 0, 0, 0, 0, 0, -61.4507, 0, 62.7049, 0, 0, 0, 0, 0, 0, -61.7668, 0, -60.2055),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_003qw")
+food_scene = ExtResource("2_1dd60")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(125, 0, 0, 0, 1, 0, 0, 0, 125, 0, -1.01394, 1.10391)
+top_level = true
+shape = SubResource("BoxShape3D_l2t3c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(125, 0, 0, 0, 1, 0, 0, 0, 125, 0, -1.01555, 1.28639)
+mesh = SubResource("BoxMesh_tuunk")
+surface_material_override/0 = SubResource("StandardMaterial3D_blfay")
+
+[node name="Player" parent="." instance=ExtResource("1_pgih2")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.346936, 0.937889, 0, -0.937889, 0.346936, 0.543701, 33.9291, 2.3942)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ibs0q")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_gm02a")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-0.00128846, 0, -0.999999, 0, 1, 0, 0.999999, 0, -0.00128846, -61.7668, 0, -60.2055)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
