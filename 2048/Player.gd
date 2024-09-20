@@ -5,8 +5,9 @@ var rayOrigin = Vector3()
 var rayEnd = Vector3()
 var gravity = 850
 var speed = 5.0
-var value = 1
+var value = 2
 var getPos = Vector3()
+var movement_mouse = Vector3()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NumberLabel.text = str(value)
@@ -15,32 +16,32 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#var vec = get_viewport().get_mouse_position() - self.position # getting the vector from self to the mouse
-	#vec = vec.normalized() * delta * speed # normalize it and multiply by time and speed
-	#position += vec # move by that vector
 	pass
 	
 func _physics_process(delta):
-	
-	if Global.collided == true:
+	if Global.player_collided_with_enemy:
+		Global.player_position = self.position
+	if Global.food_collided_with_player == true:
 		$AudioStreamPlayer3D.play()
 		value += Global.score
-		Global.collided = false
+		Global.food_collided_with_player = false
+		#self.scale = Vector3(scale.x + (value/1000), scale.x + (value/1000), scale.x + (value/1000))
+		#print(self.scale)
 	
 	$NumberLabel.text = str(value)
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-		print(is_on_floor())
+		#print(is_on_floor())
 	
 	var space_state = get_world_3d().direct_space_state
 	
 	var mouse_position = get_viewport().get_mouse_position()
-	var movement_mouse = mouse_position
+	movement_mouse = mouse_position
 	movement_mouse = Vector3(mouse_position.x - getPos.x, 0, mouse_position.y - getPos.z)
 	movement_mouse = mouse_position.normalized() * delta * speed
 	
-	position += Vector3(movement_mouse.x, 0, movement_mouse.y)
+	
 	rayOrigin = camera.project_ray_origin(mouse_position)
 	
 	rayEnd = rayOrigin + camera.project_ray_normal(mouse_position) * 2000
@@ -49,9 +50,13 @@ func _physics_process(delta):
 	
 	if not intersection.is_empty():
 		var pos = intersection.position
-		#$MeshInstance3D.look_at(Vector3(pos.x, position.y, pos.z), Vector3(0,1,0))
+		$MeshInstance3D.look_at(Vector3(pos.x, position.y, pos.z), Vector3(0,1,0))
+		#position += Vector3(pos.x, 0, pos.z)
+		
+	position += Vector3(movement_mouse.x, 0, movement_mouse.y)
+	#position = position.move_toward(Vector3(movement_mouse.x,0,movement_mouse.y), delta * speed)
 	#velocity = Vector3(mouse_position.x * speed, 0, mouse_position.y * speed)
-	print(position)
+	#print(get_viewport().get_mouse_position())
 	move_and_slide()
 
 

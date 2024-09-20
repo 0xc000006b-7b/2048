@@ -2,7 +2,7 @@ extends Node3D
 
 @export var food_scene: PackedScene
 var food_array : Array
-var array_range = 100
+var array_range = 10
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#$Timer.start()
@@ -20,7 +20,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Global.food_population < 90:
+	if Global.food_population < 5:
 		for i in range(Global.eaten):
 			var food = food_scene.instantiate()
 			#food_spawn_location.progress_ratio = randf()

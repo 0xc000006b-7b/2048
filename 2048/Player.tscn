@@ -25,7 +25,7 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_l8qos")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 
