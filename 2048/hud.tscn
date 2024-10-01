@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv5jwsv8ydwcq"]
+
+[ext_resource type="Script" path="res://hud.gd" id="1_8r8ap"]
+
+[node name="Hud" type="Node3D"]
+script = ExtResource("1_8r8ap")
+
+[node name="PlayGameButton" type="Button" parent="."]
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 384.0
+offset_bottom = 128.0
+text = "Play Game"
+
+[node name="SettingButton" type="Button" parent="."]
+offset_left = 64.0
+offset_top = 136.0
+offset_right = 384.0
+offset_bottom = 200.0
+text = "Setting"
+
+[node name="ExitButton" type="Button" parent="."]
+offset_left = 64.0
+offset_top = 208.0
+offset_right = 384.0
+offset_bottom = 272.0
+text = "Exit"
+
+[node name="KeyboardButton" type="Button" parent="."]
+offset_left = 832.0
+offset_top = 192.0
+offset_right = 1088.0
+offset_bottom = 256.0
+text = "Keyboard Control"
+
+[node name="MouseButton" type="Button" parent="."]
+offset_left = 512.0
+offset_top = 192.0
+offset_right = 768.0
+offset_bottom = 256.0
+text = "Mouse Control"
+
+[connection signal="pressed" from="PlayGameButton" to="." method="_on_play_game_button_pressed"]
+[connection signal="pressed" from="SettingButton" to="." method="_on_setting_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="KeyboardButton" to="." method="_on_keyboard_button_pressed"]
+[connection signal="pressed" from="MouseButton" to="." method="_on_mouse_button_pressed"]

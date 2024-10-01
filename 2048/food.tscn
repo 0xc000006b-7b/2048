@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://drattlk7608tf"]
+[gd_scene load_steps=7 format=3 uid="uid://drattlk7608tf"]
 
 [ext_resource type="Script" path="res://food.gd" id="1_op5qe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_byhja"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45cfk"]
 albedo_color = Color(0.137255, 1, 0.0901961, 1)
@@ -14,8 +16,12 @@ material = SubResource("StandardMaterial3D_45cfk")
 height = 0.9
 radius = 15.0
 
-[node name="Food" type="Node3D"]
+[node name="Food" type="StaticBody3D"]
 script = ExtResource("1_op5qe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_byhja")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_ixo70")

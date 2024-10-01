@@ -1,10 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cuc6iv58gggh"]
+[gd_scene load_steps=9 format=3 uid="uid://cuc6iv58gggh"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_003qw"]
 [ext_resource type="PackedScene" uid="uid://1aggvargr0pr" path="res://Player.tscn" id="1_pgih2"]
-[ext_resource type="PackedScene" uid="uid://drattlk7608tf" path="res://food.tscn" id="2_1dd60"]
 [ext_resource type="Texture2D" uid="uid://hpk6twlvwhvk" path="res://grid1x.jpg" id="3_hojuk"]
-[ext_resource type="PackedScene" uid="uid://ckfeoqignun57" path="res://enemy.tscn" id="5_5ds4x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l2t3c"]
 
@@ -27,7 +25,6 @@ point_count = 5
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_003qw")
-food_scene = ExtResource("2_1dd60")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -58,8 +55,5 @@ transform = Transform3D(-0.00128846, 0, -0.999999, 0, 1, 0, 0.999999, 0, -0.0012
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
-
-[node name="Enemy" parent="." instance=ExtResource("5_5ds4x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

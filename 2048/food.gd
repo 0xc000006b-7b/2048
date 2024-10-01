@@ -1,4 +1,4 @@
-extends Node3D
+extends StaticBody3D
 
 var value
 var value_array := [2, 4, 6, 8, 16, 32, 64]
@@ -20,6 +20,8 @@ func _process(delta):
 			check = true
 		if not Global.food_collided_with_enemy:
 			check = false
+			
+	#print(ping_enemy_self_pos() , " jdawdkawdkajwnjkw")
 
 func _on_area_3d_body_entered(body):
 	if body.name.match("Player"):
@@ -28,15 +30,23 @@ func _on_area_3d_body_entered(body):
 		Global.food_collided_with_player = true
 		Global.food_population -= 1
 		Global.eaten += 1
-		queue_free()
-	
-	if body.name.match("Enemy"):
-		Global.enemy_score = value_array[value]
-		Global.food_collided_with_enemy = true
-		Global.food_population -= 1
-		Global.eaten += 1
-		queue_free()
+		if Global.food_pos_array.has(self.position):
+			Global.food_pos_array.erase(self.position)
+		self_destroy()
+	#elif body.name.match("Enemy"):
+		#Global.enemy_score = value_array[value]
+		#Global.food_collided_with_enemy = true
+		#Global.food_population -= 1
+		#Global.eaten += 1
+		#print("Enemy ate me!")
+		#queue_free()
 		#Global.food_position = self.position
 
-func ping_enemy_self_pos():
-	Global.food_position = self.position
+func ping():
+	return self.position
+	
+func return_my_value():
+	return value_array[value]
+	
+func self_destroy():
+	queue_free()
