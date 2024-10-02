@@ -26,7 +26,12 @@ func _process(delta):
 	
 	#if position.distance_to(temp) <= 0:
 		#temp = Global.food_pos_array.pick_random()
-		
+	"""for i in range(Global.food_pos_array.size()):
+		if position.distance_to(Global.food_pos_array[i]) < 20:
+			print(unique_name, " is close to ",Global.food_pos_array[i])
+			temp = Global.food_pos_array[i]"""
+			
+	
 	if not Global.food_pos_array.has(temp):
 		temp = Global.food_pos_array.pick_random()
 	
@@ -36,7 +41,7 @@ func _process(delta):
 		else:
 			#if position.distance_to(Global.food_position) > 80:
 			position = position.move_toward(temp, delta * speed)
-			print(unique_name, " following ", temp)
+			#print(unique_name, " following ", temp)
 	#elif another_enemy:
 		#if another_enemy_score < enemy_score:
 			#position = position.move_toward(another_enemy_pos, delta * speed)
@@ -44,7 +49,7 @@ func _process(delta):
 			#position = position.move_toward(Global.food_position, delta * speed)
 	else:
 		position = position.move_toward(temp, delta * speed)
-		print(unique_name, " following ", temp)
+		#print(unique_name, " following ", temp)
 	
 		#if not Global.player_collided_with_enemy and not Global.enemy_entered_food and not another_enemy:
 			#if position.x > 55 or position.x < -55 or position.z > 55 or position.z < -55:
@@ -85,6 +90,7 @@ func _on_player_collision_area_3d_body_entered(body):
 		if Global.overall_player_score > enemy_score:
 			Global.enemy_score = enemy_score
 			Global.player_eat_enemy = true
+			Global.enemy_population -= 1
 			queue_free()
 		elif Global.overall_player_score < enemy_score:
 			enemy_score += Global.overall_player_score

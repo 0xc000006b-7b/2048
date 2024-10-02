@@ -23,7 +23,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("Zoom_UP") and not camera.position.y == 15:
+	if Input.is_action_just_pressed("Zoom_UP") and not camera.position.y == 10:
 		camera.position.y -= ZOOM_SPEED
 	if Input.is_action_just_released("Zoom_Down") and not camera.position.y == 60:
 		camera.position.y += ZOOM_SPEED
@@ -55,7 +55,8 @@ func _physics_process(delta):
 		
 	if Global.enemy_eat_player:
 		Global.enemy_eat_player = false
-		await get_tree().create_timer(5.0).timeout
+		Global.defeat = true
+		value = 2
 		self.position = Vector3.ZERO
 		#queue_free()
 	
@@ -67,7 +68,8 @@ func _physics_process(delta):
 		#print(is_on_floor())
 	
 	if position.y < -20:
-		await get_tree().create_timer(0.5).timeout
+		Global.defeat = true
+		value = 2
 		self.position = Vector3.ZERO
 	
 	

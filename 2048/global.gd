@@ -19,6 +19,9 @@ var overall_player_score = 0
 var enemy_score = 0
 var food_position = Vector3()
 var player_position = Vector3()
+
+
+var defeat = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

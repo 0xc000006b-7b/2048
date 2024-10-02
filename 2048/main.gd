@@ -3,10 +3,13 @@ extends Node3D
 
 @onready var food_scene = preload("res://food.tscn")
 @onready var enemy_scene = preload("res://enemy.tscn")
+@onready var game_over_scene = preload("res://game_over.tscn")
 var food_array : Array
 var array_range = 10
 var enemy_array : Array
 var enemy_array_range = 5
+
+var game_over
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#Food Instances
@@ -45,6 +48,12 @@ func _process(delta):
 		#get_tree().paused = true
 		#get_tree().reload_current_scene()
 		#$GameOver.show()
+	
+	if Global.defeat:
+		game_over = game_over_scene.instantiate()
+		add_child(game_over)
+		get_tree().paused = true
+		
 	
 	
 	if Input.is_action_pressed("Escape"):
