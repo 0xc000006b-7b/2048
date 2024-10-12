@@ -1,11 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://drattlk7608tf"]
+[gd_scene load_steps=8 format=3 uid="uid://drattlk7608tf"]
 
 [ext_resource type="Script" path="res://food.gd" id="1_op5qe"]
+[ext_resource type="Texture2D" uid="uid://dfolfcaj6prv4" path="res://texture_01_green.png" id="2_p0xnj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_byhja"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45cfk"]
-albedo_color = Color(0.137255, 1, 0.0901961, 1)
+albedo_color = Color(0.835294, 0.827451, 0.827451, 0.921569)
+albedo_texture = ExtResource("2_p0xnj")
+albedo_texture_force_srgb = true
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_ixo70"]
 material = SubResource("StandardMaterial3D_45cfk")
@@ -28,7 +32,7 @@ mesh = SubResource("BoxMesh_ixo70")
 
 [node name="NumberLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.576111, 0)
-text = "dwadaw
+text = "Random No.
 "
 font_size = 150
 

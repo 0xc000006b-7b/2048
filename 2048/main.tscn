@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuc6iv58gggh"]
+[gd_scene load_steps=12 format=3 uid="uid://cuc6iv58gggh"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_003qw"]
 [ext_resource type="PackedScene" uid="uid://1aggvargr0pr" path="res://Player.tscn" id="1_pgih2"]
-[ext_resource type="Texture2D" uid="uid://hpk6twlvwhvk" path="res://grid1x.jpg" id="3_hojuk"]
+[ext_resource type="Texture2D" uid="uid://dumfj48lb3lxx" path="res://texture_01.png" id="2_d3yku"]
+[ext_resource type="AudioStream" uid="uid://c1axt1fgmiw7x" path="res://sfx/game-music-loop-6-144641.mp3" id="4_rm0br"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l2t3c"]
 
@@ -10,8 +11,8 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blfay"]
 albedo_color = Color(0.298039, 0.298039, 0.298039, 1)
-albedo_texture = ExtResource("3_hojuk")
-uv1_scale = Vector3(1.795, 2, 1.68)
+albedo_texture = ExtResource("2_d3yku")
+uv1_scale = Vector3(10, 10, 10)
 texture_filter = 0
 
 [sub_resource type="Environment" id="Environment_ibs0q"]
@@ -23,18 +24,22 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="BoxMesh" id="BoxMesh_tprnk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lpwyy"]
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_003qw")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(125, 0, 0, 0, 1, 0, 0, 0, 125, 0, -1.01394, 1.10391)
+transform = Transform3D(500, 0, 0, 0, 4, 0, 0, 0, 500, 0, -2.46947, 1.10391)
 top_level = true
 shape = SubResource("BoxShape3D_l2t3c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(125, 0, 0, 0, 1, 0, 0, 0, 125, 0, -1.01555, 1.28639)
+transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -0.986, 1.286)
 mesh = SubResource("BoxMesh_tuunk")
 surface_material_override/0 = SubResource("StandardMaterial3D_blfay")
 
@@ -56,4 +61,53 @@ transform = Transform3D(-0.00128846, 0, -0.999999, 0, 1, 0, 0.999999, 0, -0.0012
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="Wall1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.998532, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall1"]
+transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.030529, -248.254)
+mesh = SubResource("BoxMesh_tprnk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall1"]
+transform = Transform3D(501.468, 0, 0, 0, 1.00294, 0, 0, 0, 1.00294, 0, 0.030529, -248.254)
+shape = SubResource("BoxShape3D_lpwyy")
+
+[node name="Wall2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.00146818, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall2"]
+transform = Transform3D(-2.18557e-05, 0, 1, 0, 1, 0, -500, 0, -4.37114e-08, -248.654, 0.030529, 2.20574)
+mesh = SubResource("BoxMesh_tprnk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2"]
+transform = Transform3D(-2.19199e-05, 0, 1.00294, 0, 1.00294, 0, -501.468, 0, -4.38397e-08, -248.654, 0.030529, 2.20574)
+shape = SubResource("BoxShape3D_lpwyy")
+
+[node name="Wall3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.987403, 0.934067)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall3"]
+transform = Transform3D(-2.18557e-05, 0, 1, 0, 1, 0, -500, 0, -4.37114e-08, 249.309, -0.955406, -0.374718)
+mesh = SubResource("BoxMesh_tprnk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3"]
+transform = Transform3D(-2.19199e-05, 0, 1.00294, 0, 1.00294, 0, -501.468, 0, -4.38397e-08, 249.309, -0.955406, -0.374718)
+shape = SubResource("BoxShape3D_lpwyy")
+
+[node name="Wall4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00146818, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall4"]
+transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.030529, 250.744)
+mesh = SubResource("BoxMesh_tprnk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall4"]
+transform = Transform3D(501.468, 0, 0, 0, 1.00294, 0, 0, 0, 1.00294, 0, 0.030529, 250.744)
+shape = SubResource("BoxShape3D_lpwyy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_rm0br")
+autoplay = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

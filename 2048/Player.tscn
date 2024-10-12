@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://1aggvargr0pr"]
+[gd_scene load_steps=14 format=3 uid="uid://1aggvargr0pr"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_h4hat"]
-[ext_resource type="AudioStream" uid="uid://ulircakhhxhs" path="res://super-mario-bros-coin.mp3" id="2_udshe"]
+[ext_resource type="Texture2D" uid="uid://6yskbb1glod8" path="res://texture_01_red.png" id="2_8fy7r"]
+[ext_resource type="AudioStream" uid="uid://grf788tur2r3" path="res://sfx/90s-game-ui-6-185099.mp3" id="3_kfhve"]
+[ext_resource type="AudioStream" uid="uid://bab44tpi8ni1a" path="res://sfx/90s-game-ui-7-185100.mp3" id="4_6xlhc"]
+[ext_resource type="AudioStream" uid="uid://dc5xowdhpoy5o" path="res://sfx/game-over-39-199830.mp3" id="5_epxiw"]
+[ext_resource type="AudioStream" uid="uid://dfwhvd2di0mn7" path="res://sfx/wind-47344.mp3" id="6_agn4a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7uv1v"]
 albedo_color = Color(0.815686, 0.345098, 0.521569, 1)
+albedo_texture = ExtResource("2_8fy7r")
+albedo_texture_force_srgb = true
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_adonp"]
 material = SubResource("StandardMaterial3D_7uv1v")
@@ -13,6 +20,28 @@ material = SubResource("StandardMaterial3D_7uv1v")
 size = Vector3(1.1, 1.1, 1.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xch4a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iv3ap"]
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c6a5m"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 0, 0)
+spread = 10.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+radial_velocity_min = 1.0
+radial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_oqv1p"]
+size = Vector2(0.1, 0.5)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_h4hat")
@@ -34,10 +63,37 @@ shape = SubResource("BoxShape3D_xch4a")
 
 [node name="NumberLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.545857, 0)
-text = "dawdaw"
-font_size = 200
+text = "Player Score"
+font_size = 300
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_udshe")
+[node name="FoodAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_kfhve")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="EnemyAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_6xlhc")
+
+[node name="DeathAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_epxiw")
+
+[node name="SpeedUpAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_agn4a")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_right = 4.0
+offset_bottom = 27.0
+show_percentage = false
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_iv3ap")
+emitting = false
+amount = 10
+lifetime = 0.5
+speed_scale = 2.0
+process_material = SubResource("ParticleProcessMaterial_c6a5m")
+draw_pass_1 = SubResource("QuadMesh_oqv1p")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -2,7 +2,7 @@ extends RigidBody3D
 
 var enemy_score = 2
 var gravity = 850
-var speed = 5
+var speed = 10
 var unique_name = ""
 var food_pos_array : Array[Vector3]
 var count = 0
@@ -16,12 +16,19 @@ var player_entered = false
 func _ready():
 	temp = Global.food_pos_array.pick_random()
 	unique_name = Global.enemy_name_array[Global.enemy_name_array_count]
+	
 	print(unique_name)
 	$EnemyScoreLabel.text = str(enemy_score)
+	$NameLabel3D.text = unique_name
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	#for i in range(Global.enemy_name_array_count):
+		#if Global.enemy_name_array.has(unique_name):
+			#Global.enemy_score_array.insert(i, enemy_score)
+	
 	$EnemyScoreLabel.text = str(enemy_score)
 	
 	#if position.distance_to(temp) <= 0:
@@ -37,9 +44,11 @@ func _process(delta):
 	
 	if player_entered:
 		if Global.overall_player_score < enemy_score:
-			position = position.move_toward(Global.player_position, delta * speed)
-		else:
+			position = position.move_toward(Vector3(Global.player_position.x, 0, Global.player_position.z), delta * speed)
+		elif Global.overall_player_score > enemy_score:
 			#if position.distance_to(Global.food_position) > 80:
+			position = position.move_toward(Vector3(Global.player_position.x, 0, Global.player_position.z), delta * -speed)
+		else:
 			position = position.move_toward(temp, delta * speed)
 			#print(unique_name, " following ", temp)
 	#elif another_enemy:
@@ -58,6 +67,7 @@ func _process(delta):
 				#position += Vector3(speed * delta, 0, speed * delta)
 	
 func _physics_process(delta):
+	
 	pass
 
 
@@ -93,6 +103,7 @@ func _on_player_collision_area_3d_body_entered(body):
 			Global.enemy_population -= 1
 			queue_free()
 		elif Global.overall_player_score < enemy_score:
+			$AudioStreamPlayer3D.play()
 			enemy_score += Global.overall_player_score
 			Global.enemy_eat_player = true
 	elif body.has_method('ping'):
@@ -105,6 +116,15 @@ func _on_player_collision_area_3d_body_entered(body):
 		Global.food_population -= 1
 		Global.eaten += 1
 		body.self_destroy()
+	elif body.has_method('i_am_enemy'):
+		if body.return_my_score() > enemy_score:
+			body.add_another_enemy_score(enemy_score)
+			Global.enemy_population -= 1
+			queue_free()
+		else:
+			enemy_score += body.return_my_score()
+			#body.destroy_self()
+		
 	
 		
 func return_my_score():
@@ -117,28 +137,6 @@ func i_am_enemy():
 	print("i_am_enemy method")
 	
 func destroy_self():
-	queue_free()
-
-func _on_player_collision_area_3d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	#if body.has_method('i_am_enemy'):
-		
-		#if another_enemy_score > enemy_score:
-			#body.add_another_enemy_score(enemy_score)
-			#print("hit")
-			#queue_free()
-		#else:
-			#enemy_score += body.return_my_score()
-			#body.destroy_self()
-			#print("EEEEEEEEEEEE")
-		
-		#print(body_rid, " ", body, " ", body_shape_index, " ", local_shape_index, " ")
-	pass
-
-
-func _on_player_search_area_3d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	#if body.has_method('i_am_enemy'):
-		#another_enemy = true
-		#another_enemy_pos = body.position
-		#another_enemy_score = body.return_my_score()
-		#print("I SEE ENEMY")
-	pass
+	var unique_instance_id = get_instance_id()
+	var inst_id = instance_from_id(unique_instance_id)
+	inst_id.queue_free()

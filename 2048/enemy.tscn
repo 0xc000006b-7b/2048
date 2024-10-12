@@ -1,8 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckfeoqignun57"]
+[gd_scene load_steps=9 format=3 uid="uid://ckfeoqignun57"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_n2hhm"]
+[ext_resource type="Texture2D" uid="uid://basl7uditjv4x" path="res://texture_01_orange.png" id="2_vkjyp"]
+[ext_resource type="AudioStream" uid="uid://dc5xowdhpoy5o" path="res://sfx/game-over-39-199830.mp3" id="3_r8hff"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0tb1"]
+albedo_texture = ExtResource("2_vkjyp")
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_gpase"]
+material = SubResource("StandardMaterial3D_c0tb1")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_73yxf"]
 
@@ -30,14 +37,20 @@ shape = SubResource("CylinderShape3D_hqxcm")
 [node name="EnemyScoreLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.747131, 0)
 text = "text"
-font_size = 150
+font_size = 300
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_r8hff")
 
 [node name="PlayerCollisionArea3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCollisionArea3D"]
 shape = SubResource("BoxShape3D_y5veh")
+
+[node name="NameLabel3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1.60458)
+text = "text"
+font_size = 500
 
 [connection signal="body_entered" from="PlayerSearchArea3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="PlayerSearchArea3D" to="." method="_on_area_3d_body_exited"]
